@@ -1,14 +1,14 @@
-class posterCatagories extends HTMLElement {
+class posterCategories extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow ({ mode: 'open'});
         this.posters = this.shadow.appendChild (
-            document.createElement ( "section" )
+            document.createElement ( "div" )
         );
-
-        for ( let item of ['nature', 'fruit', 'sport']) {
+        let btnNames = ['all', 'nature', 'fruit', 'sport'];
+        for (let item of btnNames) {
             let btn = document.createElement ("button");
-            btn.innerText = item
+            btn.innerText = item;
             btn.onclick = function ( event ) {
                 this.setAttribute ('src', `${event.target.innerText}.json` )
             }.bind (this);
@@ -16,7 +16,7 @@ class posterCatagories extends HTMLElement {
         }
 
         this.shadowStyle = this.shadow.appendChild (
-                document.createElement ('style')
+            document.createElement ('style')
         );
 
         this.shadowStyle.textContent = ``;
@@ -28,14 +28,14 @@ class posterCatagories extends HTMLElement {
         return ['src']
     };
 
-    attributeChangedCallback(attrName, prevVal, newVal) {
+    attributeChangedCallback() {
         this.posters.innerHTML = "";
         this.readJSON ();
     };
 
     setStyle () {
         this.shadowStyle.textContent = `
-          section {
+          div {
             position: absolute;
             top: 50px;
             overflow: auto;
@@ -54,14 +54,14 @@ class posterCatagories extends HTMLElement {
                 (resolve, reject) => {
                     let img = document.createElement ('img');
                     img.onload = function () {
-                        resolve (img)
+                        resolve (img);
                     };
-                    img.onerror = () => reject ( pictureURL );
-                    img.src = pictureURL
+                    img.onerror = () => reject (pictureURL);
+                    img.src = pictureURL;
                 }
             );
         let pictures = await fetch (url)
-        .then (response => response.json());
+            .then (response => response.json());
         promises = pictures.map (
             imgURL => promise (imgURL)
         );
@@ -73,52 +73,7 @@ class posterCatagories extends HTMLElement {
     }
 }
 
-customElements.define('category-images', posterCatagories);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+customElements.define('category-images', posterCategories);
 
 
 
