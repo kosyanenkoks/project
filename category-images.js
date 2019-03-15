@@ -5,12 +5,16 @@ class posterCategories extends HTMLElement {
         this.posters = this.shadow.appendChild (
             document.createElement ( "div" )
         );
-        let btnNames = ['all', 'nature', 'fruit', 'sport'];
+        let _this = this;
+        let btnNames = ['nature', 'fruit', 'sport'];
         for (let item of btnNames) {
             let btn = document.createElement ("button");
             btn.innerText = item;
+            document.body.onload = function ( event ) {
+                this.setAttribute('src', `${btnNames[0]}.json` )
+            }.bind(_this);
             btn.onclick = function ( event ) {
-                this.setAttribute ('src', `${event.target.innerText}.json` )
+                this.setAttribute('src', `${event.target.innerText}.json` )
             }.bind (this);
             this.shadow.appendChild(btn);
         }
@@ -31,7 +35,18 @@ class posterCategories extends HTMLElement {
     attributeChangedCallback() {
         this.posters.innerHTML = "";
         this.readJSON ();
+        this.compareThisSrcVsBtnName()
     };
+
+    compareThisSrcVsBtnName () {
+        let attVal = this.getAttribute('src').split('.')[0];
+        let btns = document.getElementsByTagName('button');
+        var arr = Array.from(btns);
+        console.log(arr)
+        if(attVal === document.getElementsByTagName('button').innerText) {
+            console.log(1)
+        }
+    }
 
     setStyle () {
         this.shadowStyle.textContent = `
@@ -63,7 +78,7 @@ class posterCategories extends HTMLElement {
         let pictures = await fetch (url)
             .then (response => response.json());
         promises = pictures.map (
-            imgURL => promise (imgURL)
+            imgURL => promise(imgURL)
         );
 
         let images = await Promise.all(promises);
