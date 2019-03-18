@@ -15,8 +15,10 @@ class posterCategories extends HTMLElement {
             }.bind(_this);
             btn.onclick = function ( event ) {
                 this.setAttribute('src', `${event.target.innerText}.json` )
+                // btn.classList.toggle('active')
             }.bind (this);
             this.shadow.appendChild(btn);
+            console.log(btn.parentNode)
         }
 
         this.shadowStyle = this.shadow.appendChild (
@@ -35,18 +37,32 @@ class posterCategories extends HTMLElement {
     attributeChangedCallback() {
         this.posters.innerHTML = "";
         this.readJSON ();
-        this.compareThisSrcVsBtnName()
+
+        this.onclick = function(event) {
+            var target = event.target;
+            console.log(target)
+
+            while (target != this) {
+                if (target.tagName == 'BUTTON') {
+                    highlight(target);
+                    return;
+                }
+                target = target.parentNode;
+            }
+        }
+
+        function highlight(node) {
+            let selectedTd;
+            if (selectedTd) {
+                selectedTd.classList.remove('highlight');
+            }
+            selectedTd = node;
+            selectedTd.classList.add('highlight');
+        }
     };
 
-    compareThisSrcVsBtnName () {
-        let attVal = this.getAttribute('src').split('.')[0];
-        let btns = document.getElementsByTagName('button');
-        var arr = Array.from(btns);
-        console.log(arr)
-        if(attVal === document.getElementsByTagName('button').innerText) {
-            console.log(1)
-        }
-    }
+
+
 
     setStyle () {
         this.shadowStyle.textContent = `
@@ -57,6 +73,10 @@ class posterCategories extends HTMLElement {
           }
           button {
             padding: 5px 10px;
+          }
+          
+          button.active {
+            color: red;
           }
         `
     }
