@@ -1,9 +1,13 @@
 category-images {
 	display: block;
-	/*background-color: red;*/
 }
 
-category-images button {
+.btn {
 	color: green;
+}
+
+aside {
+	max-width: 400px;
+	width: 100%;
 }
 

@@ -12,7 +12,6 @@ class posterCategories extends HTMLElement {
         this.posters.className = 'img-holder';
         let btnNames = ['nature', 'fruit', 'sport'];
         this.setAttribute('src', `${btnNames[0]}.json`);
-        let activeBtn;
 
         for (let item of btnNames) {
             let btn = document.createElement ("button");
@@ -21,7 +20,6 @@ class posterCategories extends HTMLElement {
             btn.onclick = function(event) {
                 this.setAttribute('src', `${event.target.innerText}.json`)
             }.bind(this);
-
             this.btnHolder.appendChild(btn);
         }
 
@@ -59,11 +57,13 @@ class posterCategories extends HTMLElement {
 
     setStyle () {
         this.shadowStyle.textContent = `
-          button {
+        /*@import "https://codepen.io/chriscoyier/pen/VqKvZr.css";*/
+
+          .btn {
             padding: 5px 10px;
           }
           
-          button.active {
+          .btn.active {
             color: red;
           }
         `
