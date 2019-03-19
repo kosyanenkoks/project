@@ -2,54 +2,42 @@ class posterCategories extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow ({ mode: 'open'});
+        this.btnHolder = this.shadow.appendChild(
+            document.createElement("div")
+        );
+        this.btnHolder.className = 'btn-holder';
         this.posters = this.shadow.appendChild (
             document.createElement ( "div" )
         );
-        this.btnHolder = this.shadow.appendChild(
-                document.createElement("div")
-        );
-        this.btnHolder.className = 'btn-holder';
-        let activeBtn;
+        this.posters.className = 'img-holder';
         let btnNames = ['nature', 'fruit', 'sport'];
+        this.setAttribute('src', `${btnNames[0]}.json`);
+        let activeBtn;
 
         for (let item of btnNames) {
             let btn = document.createElement ("button");
             btn.innerText = item;
-            this.setAttribute('src', `${btnNames[0]}.json`);
-
-            if (item === 'nature') {
-                btn.classList.add('active');
-            }
-
-            btn.onclick = function ( event ) {
-                this.setAttribute('src', `${event.target.innerText}.json` )
+            btn.classList.add('btn')
+            btn.onclick = function(event) {
+                this.setAttribute('src', `${event.target.innerText}.json`)
             }.bind(this);
 
             this.btnHolder.appendChild(btn);
         }
 
-        //----------------------------------------------
+        let btns = this.btnHolder.childNodes;
+        btns[0].classList.add('active');
 
         this.btnHolder.onclick = function(event) {
-            var target = event.target;
+            let target = event.target;
+            if (!target.classList.contains('btn')) return;
 
-            while (target != this) {
-                if (target.tagName == 'BUTTON') {
-                    highlight(target);
-                    return;
-                }
-                target = target.parentNode;
-            }
+            btns.forEach(function(item) {
+                item.classList.remove('active');
+            });
+
+            target.classList.add('active');
         };
-
-        function highlight(node) {
-            if (activeBtn) {
-                activeBtn.classList.remove('active');
-            }
-            activeBtn = node;
-            activeBtn.classList.add('active');
-        }
-        //----------------------------------------------
 
         this.shadowStyle = this.shadow.appendChild (
             document.createElement ('style')
@@ -71,12 +59,6 @@ class posterCategories extends HTMLElement {
 
     setStyle () {
         this.shadowStyle.textContent = `
-          // div:first-child {
-          //   position: absolute;
-          //   top: 50px;
-          //   overflow: auto;
-          // }
-          
           button {
             padding: 5px 10px;
           }
