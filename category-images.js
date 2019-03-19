@@ -5,21 +5,51 @@ class posterCategories extends HTMLElement {
         this.posters = this.shadow.appendChild (
             document.createElement ( "div" )
         );
-        let _this = this;
+        this.btnHolder = this.shadow.appendChild(
+                document.createElement("div")
+        );
+        this.btnHolder.className = 'btn-holder';
+        let activeBtn;
         let btnNames = ['nature', 'fruit', 'sport'];
+
         for (let item of btnNames) {
             let btn = document.createElement ("button");
             btn.innerText = item;
-            document.body.onload = function ( event ) {
-                this.setAttribute('src', `${btnNames[0]}.json` )
-            }.bind(_this);
+            this.setAttribute('src', `${btnNames[0]}.json`);
+
+            if (item === 'nature') {
+                btn.classList.add('active');
+            }
+
             btn.onclick = function ( event ) {
                 this.setAttribute('src', `${event.target.innerText}.json` )
-                // btn.classList.toggle('active')
-            }.bind (this);
-            this.shadow.appendChild(btn);
-            console.log(btn.parentNode)
+            }.bind(this);
+
+            this.btnHolder.appendChild(btn);
         }
+
+        //----------------------------------------------
+
+        this.btnHolder.onclick = function(event) {
+            var target = event.target;
+
+            while (target != this) {
+                if (target.tagName == 'BUTTON') {
+                    highlight(target);
+                    return;
+                }
+                target = target.parentNode;
+            }
+        };
+
+        function highlight(node) {
+            if (activeBtn) {
+                activeBtn.classList.remove('active');
+            }
+            activeBtn = node;
+            activeBtn.classList.add('active');
+        }
+        //----------------------------------------------
 
         this.shadowStyle = this.shadow.appendChild (
             document.createElement ('style')
@@ -37,40 +67,16 @@ class posterCategories extends HTMLElement {
     attributeChangedCallback() {
         this.posters.innerHTML = "";
         this.readJSON ();
-
-        this.onclick = function(event) {
-            var target = event.target;
-            console.log(target)
-
-            while (target != this) {
-                if (target.tagName == 'BUTTON') {
-                    highlight(target);
-                    return;
-                }
-                target = target.parentNode;
-            }
-        }
-
-        function highlight(node) {
-            let selectedTd;
-            if (selectedTd) {
-                selectedTd.classList.remove('highlight');
-            }
-            selectedTd = node;
-            selectedTd.classList.add('highlight');
-        }
     };
-
-
-
 
     setStyle () {
         this.shadowStyle.textContent = `
-          div {
-            position: absolute;
-            top: 50px;
-            overflow: auto;
-          }
+          // div:first-child {
+          //   position: absolute;
+          //   top: 50px;
+          //   overflow: auto;
+          // }
+          
           button {
             padding: 5px 10px;
           }
@@ -80,6 +86,7 @@ class posterCategories extends HTMLElement {
           }
         `
     }
+
     async readJSON () {
         let url = this.getAttribute ('src');
         if (!url) return null;
@@ -109,42 +116,3 @@ class posterCategories extends HTMLElement {
 }
 
 customElements.define('category-images', posterCategories);
-
-
-
-
-
-
-// let filterGallery = addElement('section');
-// let filter = addElement('div', filterGallery);
-// filter.className = "filter-holder";
-// let filterButton;
-//
-// function addElement(childElem, parentElem) {
-//     return (parentElem ? parentElem : document.body).appendChild(
-//         document.createElement(childElem)
-//     )
-// }
-//
-// let getData = function (ref) {
-//     return fetch('http://localhost:3000/' + ref)
-//         .then(response => response.json())
-// };
-//
-// let createButtons = function () {
-//     new Promise (
-//         resolve => {
-//             getData('categories').then(data => {
-//                 data.forEach(
-//                     item => {
-//                         filterButton = addElement('button', filter);
-//                         filterButton.innerText = item;
-//                     }
-//                 )
-//             })
-//         }
-//
-//     )
-// };
-//
-// createButtons();

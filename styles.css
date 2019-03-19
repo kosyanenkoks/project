@@ -1,3 +1,9 @@
-button {
-    color: red;
+category-images {
+	display: block;
+	/*background-color: red;*/
 }
+
+category-images button {
+	color: green;
+}
+
