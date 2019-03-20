@@ -23,6 +23,7 @@ class posterCategories extends HTMLElement {
             this.btnHolder.appendChild(btn);
         }
 
+        //------------------------------------------
         let btns = this.btnHolder.childNodes;
         btns[0].classList.add('active');
 
@@ -37,6 +38,17 @@ class posterCategories extends HTMLElement {
             target.classList.add('active');
         };
 
+        //------------------------------------------
+
+
+        this.posters.onclick = function(event) {
+            let target = event.target;
+            var attr = getAttrSrc(target);
+            window.dispatchEvent(customEvent({src: attr}));
+        };
+
+        //------------------------------------------
+
         this.shadowStyle = this.shadow.appendChild (
             document.createElement ('style')
         );
@@ -50,7 +62,7 @@ class posterCategories extends HTMLElement {
         return ['src']
     };
 
-    attributeChangedCallback() {
+    attributeChangedCallback(name, oldVal, newVal) {
         this.posters.innerHTML = "";
         this.readJSON ();
     };
@@ -58,7 +70,7 @@ class posterCategories extends HTMLElement {
     setStyle () {
         this.shadowStyle.textContent = `
         /*@import "https://codepen.io/chriscoyier/pen/VqKvZr.css";*/
-
+        
           .btn {
             padding: 5px 10px;
           }
