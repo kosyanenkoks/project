@@ -10,6 +10,7 @@ class posterCategories extends HTMLElement {
             document.createElement ( "div" )
         );
         this.posters.className = 'img-holder';
+        this.bigImgHolder = document.querySelector('big-image');
         let btnNames = ['nature', 'fruit', 'sport'];
         this.setAttribute('src', `${btnNames[0]}.json`);
 
@@ -38,14 +39,14 @@ class posterCategories extends HTMLElement {
             target.classList.add('active');
         };
 
+
         //------------------------------------------
 
-
-        this.posters.onclick = function(event) {
-            let target = event.target;
-            var attr = getAttrSrc(target);
-            window.dispatchEvent(customEvent({src: attr}));
-        };
+        // this.posters.onclick = function(event) {
+        //     let target = event.target;
+        //     let attr = getAttrSrc(target);
+        //     window.dispatchEvent(customEvent({src: attr}));
+        // };
 
         //------------------------------------------
 
@@ -66,6 +67,19 @@ class posterCategories extends HTMLElement {
         this.posters.innerHTML = "";
         this.readJSON ();
     };
+
+
+    connectedCallback () {
+        this.bigImgHolder.addEventListener('speak', function (event) {
+            console.log(this)
+            this.innerText = "I'm speaking now"
+        });
+
+        this.posters.onclick = function (event) {
+            console.log(1)
+            bigImgHolder.dispatchEvent(new Event('speak'))
+        }
+    }
 
     setStyle () {
         this.shadowStyle.textContent = `

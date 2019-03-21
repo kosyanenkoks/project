@@ -9,14 +9,20 @@ class Image extends HTMLElement {
             document.createElement("img")
         );
 
-        let _this =  this.img;
+        // let _thisImg =  this.img;
+        // window.addEventListener('showBigImg', function(event){
+        //     let srcVal = event.detail.src;
+        //     _thisImg.setAttribute('src', srcVal)
+        // });
 
+        this.img.onclick = function (event) {
 
-        window.addEventListener('showBigImg', function(e){
-            // console.log(e.detail.src)
-            let srcVal = e.detail.src;
-            _this.setAttribute('src', srcVal)
-        });
+        }
+
+    }
+
+    connectedCallback() {
+
     }
 }
 

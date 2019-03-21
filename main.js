@@ -1,15 +1,38 @@
-let customEvent = function (obj) {
-    var obj = {
-        detail: typeof obj === "object" ? obj : {}
-    };
-    return new CustomEvent('showBigImg', obj);
-}
+// let customEvent = function (obj) {
+//     var obj = {
+//         detail: typeof obj === "object" ? obj : {}
+//     };
+//     return new CustomEvent('showBigImg', obj);
+// }
+//
+// function getAttrSrc(el) {
+//     let attr = el.getAttribute('src');
+//     return attr;
+// }
 
-function getAttrSrc(el) {
-    let attr = el.getAttribute('src');
-    // console.log(attr)
-    return attr;
-}
+let testEventName = 'speak'
+
+
+let smallImgHolder = document.querySelector('category-images');
+let bigImgHolder = document.querySelector('big-image');
+
+let shadowroot = smallImgHolder.shadowRoot
+console.log(shadowroot)
+
+// console.log(smallImgHolder.childNodes)
+
+// bigImgHolder.addEventListener('speak', function (event) {
+//     console.log(this)
+//     this.innerText = "I'm speaking now"
+// });
+//
+// smallImgHolder.onclick = function (event) {
+//     console.log(1)
+//     bigImgHolder.dispatchEvent(new Event('speak'))
+// }
+
+
+
 
 
 

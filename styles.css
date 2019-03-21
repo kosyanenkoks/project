@@ -1,3 +1,8 @@
+.container {
+    display: grid;
+    grid-template-columns: minmax(300px,1fr) minmax(300px,3fr);
+}
+
 category-images,
 big-images{
 	display: block;
