@@ -1,10 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Caveat:700');
+@import url('https://fonts.googleapis.com/css?family=Neucha&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Pangolin&subset=cyrillic');
+
 .container {
+
     display: grid;
     grid-template-columns: minmax(300px,1fr) minmax(300px,3fr);
 }
 
 category-images,
-big-images{
+big-images,
+text-panel {
 	display: block;
 }
 

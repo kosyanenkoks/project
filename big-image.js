@@ -5,25 +5,33 @@ class Image extends HTMLElement {
         this.imgHolder = this.shadow.appendChild(
             document.createElement("div")
         );
+        this.imgHolder.className = 'img-holder';
         this.img = this.imgHolder.appendChild(
             document.createElement("img")
         );
+        this.textBlock = this.imgHolder.appendChild(
+            document.createElement("div")
+        );
 
-        // let _thisImg =  this.img;
-        // window.addEventListener('showBigImg', function(event){
-        //     let srcVal = event.detail.src;
-        //     _thisImg.setAttribute('src', srcVal)
-        // });
-
-        this.img.onclick = function (event) {
-
-        }
-
+        this.shadowStyle = this.shadow.appendChild (
+            document.createElement ('style')
+        );
+        this.shadowStyle.textContent = ``;
+        this.setStyle();
     }
 
     connectedCallback() {
 
     }
+
+    setStyle() {
+        this.shadowStyle.textContent = `
+            .img-holder {
+                position: relative;
+            }
+        `
+    }
+
 }
 
 customElements.define('big-image', Image);

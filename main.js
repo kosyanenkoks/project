@@ -1,35 +1,11 @@
-// let customEvent = function (obj) {
-//     var obj = {
-//         detail: typeof obj === "object" ? obj : {}
-//     };
-//     return new CustomEvent('showBigImg', obj);
-// }
-//
-// function getAttrSrc(el) {
-//     let attr = el.getAttribute('src');
-//     return attr;
-// }
+function getAttrVal(elem, attrName) {
+    let attr = elem.getAttribute(attrName);
+    return attr;
+}
 
-let testEventName = 'speak'
-
-
-let smallImgHolder = document.querySelector('category-images');
 let bigImgHolder = document.querySelector('big-image');
+let textPanel = document.querySelector('text-panel');
 
-let shadowroot = smallImgHolder.shadowRoot
-console.log(shadowroot)
-
-// console.log(smallImgHolder.childNodes)
-
-// bigImgHolder.addEventListener('speak', function (event) {
-//     console.log(this)
-//     this.innerText = "I'm speaking now"
-// });
-//
-// smallImgHolder.onclick = function (event) {
-//     console.log(1)
-//     bigImgHolder.dispatchEvent(new Event('speak'))
-// }
 
 
 

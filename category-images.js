@@ -1,4 +1,4 @@
-class posterCategories extends HTMLElement {
+class PosterCategories extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow ({ mode: 'open'});
@@ -17,14 +17,13 @@ class posterCategories extends HTMLElement {
         for (let item of btnNames) {
             let btn = document.createElement ("button");
             btn.innerText = item;
-            btn.classList.add('btn')
+            btn.classList.add('btn');
             btn.onclick = function(event) {
                 this.setAttribute('src', `${event.target.innerText}.json`)
             }.bind(this);
             this.btnHolder.appendChild(btn);
         }
 
-        //------------------------------------------
         let btns = this.btnHolder.childNodes;
         btns[0].classList.add('active');
 
@@ -39,49 +38,45 @@ class posterCategories extends HTMLElement {
             target.classList.add('active');
         };
 
-
-        //------------------------------------------
-
-        // this.posters.onclick = function(event) {
-        //     let target = event.target;
-        //     let attr = getAttrSrc(target);
-        //     window.dispatchEvent(customEvent({src: attr}));
-        // };
-
-        //------------------------------------------
-
         this.shadowStyle = this.shadow.appendChild (
             document.createElement ('style')
         );
 
-        this.shadowStyle.textContent = ``;
-        this.setStyle ();
-        this.readJSON ();
+        this.shadowStyle.textConsetStyletent = ``;
+        this.setStyle();
+        this.readJSON();
+
     };
 
     static get observedAttributes() {
-        return ['src']
+        return['src']
     };
 
     attributeChangedCallback(name, oldVal, newVal) {
         this.posters.innerHTML = "";
-        this.readJSON ();
+        this.readJSON();
     };
 
+    connectedCallback() {
+        // let imageSrc;
+        //
+        // this.bigImgHolder.addEventListener('showBigImg', function () {
+        //     this.img.setAttribute('src', imageSrc);
+        // });
+        //
+        // this.posters.onclick = function (event) {
+        //     let target = event.target;
+        //     imageSrc = getAttrSrc(target);
+        //     bigImgHolder.dispatchEvent(new Event('showBigImg'))
+        // }
 
-    connectedCallback () {
-        this.bigImgHolder.addEventListener('speak', function (event) {
-            console.log(this)
-            this.innerText = "I'm speaking now"
-        });
-
-        this.posters.onclick = function (event) {
-            console.log(1)
-            bigImgHolder.dispatchEvent(new Event('speak'))
+        this.posters.onclick = event => {
+            let target = event.target;
+            bigImgHolder.img.setAttribute('src', getAttrVal(target, 'src'));
         }
     }
 
-    setStyle () {
+    setStyle() {
         this.shadowStyle.textContent = `
         /*@import "https://codepen.io/chriscoyier/pen/VqKvZr.css";*/
         
@@ -95,7 +90,7 @@ class posterCategories extends HTMLElement {
         `
     }
 
-    async readJSON () {
+    async readJSON() {
         let url = this.getAttribute ('src');
         if (!url) return null;
         let promises = [];
@@ -123,4 +118,4 @@ class posterCategories extends HTMLElement {
     }
 }
 
-customElements.define('category-images', posterCategories);
+customElements.define('category-images', PosterCategories);
