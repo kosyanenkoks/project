@@ -18,6 +18,33 @@ class Image extends HTMLElement {
         );
         this.shadowStyle.textContent = ``;
         this.setStyle();
+
+        //-------------------------------------------------
+        // drag and drop of element
+        //-------------------------------------------------
+        const dragElement = elem => {
+            elem.onmousedown = function (event) {
+                this.style.position = 'absolute';
+                moveAt(event);
+                this.style.zIndex = 1000;
+                function moveAt(event) {
+                    elem.style.left = event.pageX - elem.offsetWidth / 2 + 'px';
+                    elem.style.top = event.pageY - elem.offsetHeight / 2 + 'px';
+                }
+
+                document.onmousemove = function(event) {
+                    moveAt(event);
+                };
+
+                this.onmouseup = function() {
+                    document.onmousemove = null;
+                    elem.onmouseup = null;
+                }
+            }
+        };
+
+        this.textBlock.addEventListener('onmousedown', dragElement(this.textBlock))
+        //-------------------------------------------------
     }
 
     connectedCallback() {
@@ -27,7 +54,7 @@ class Image extends HTMLElement {
     setStyle() {
         this.shadowStyle.textContent = `
             .img-holder {
-                position: relative;
+                overflow: hidden;
             }
         `
     }
