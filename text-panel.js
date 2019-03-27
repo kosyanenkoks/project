@@ -35,15 +35,29 @@ class TextPanel extends HTMLElement {
             document.createElement("button")
         );
         this.button.innerText = 'Add';
+        this.customizeText = this.panelHolder.appendChild(
+            document.createElement('div')
+        );
+        this.customizeText.className = 'selects-holder';
+        this.selectList;
 
-
+        let fontFamilies = [
+            "Roboto",
+            "Lobster",
+            "Pacifico",
+            "Caveat",
+            "Neucha",
+            "Press Start 2P",
+            "Pangolin"
+        ];
+        let fontSizes = [16, 20, 24, 28, 32, 36, 40, 44, 48, 52];
 
         this.shadowStyle = this.shadow.appendChild (
             document.createElement ('style')
         );
         this.shadowStyle.textContent = ``;
         this.setStyle();
-        //-------------------------------------------------
+
 
         //-------------------------------------------------
         // showing input result
@@ -55,10 +69,25 @@ class TextPanel extends HTMLElement {
         //-------------------------------------------------
         // customize user text
         //-------------------------------------------------
+        // const test = () => {
+        //     this.selectList.onchange = event => {
+        //         console.log(event.target.value);
+        //         return event.target.value
+        //     }
+        // };
+
+        this.customizeText.onclick = event => {
+            event.target.onchange = e => {
+                console.log(e.target)
+            }
+        }
+
+        this.createSelects([fontFamilies, fontSizes]);
         this.setColor('blue');
-        this.setFontSize(24);
+        // this.setFontSize(test());
         this.setFontFamily('Pacifico');
         //-------------------------------------------------
+
 
         //-------------------------------------------------
         // insert text on Big Image & input validation
@@ -121,9 +150,6 @@ class TextPanel extends HTMLElement {
 
     }
 
-    connectedCallback() {
-
-    }
 
     setStyle() {
         this.shadowStyle.textContent = `
@@ -143,6 +169,22 @@ class TextPanel extends HTMLElement {
         `
     }
 
+    createSelects (dataArray)  {
+        dataArray.forEach((item, index) => {
+            this.selectList = this.customizeText.appendChild(
+                document.createElement('select')
+            );
+            this.selectList.setAttribute('id', `select-${index}`);
+            item.forEach((itemOption, index) => {
+                let option = this.selectList.appendChild(
+                    document.createElement("option")
+                );
+                option.setAttribute("value", item[index]);
+                option.text = item[index];
+            })
+        })
+    };
+
     setColor(color) {
         this.outputText.style.color = color;
     }
@@ -152,9 +194,8 @@ class TextPanel extends HTMLElement {
     }
 
     setFontFamily(fontName) {
-        this.outputText.style.fontFamily = `${fontName},  Arial, sans-serif`;
+        this.outputText.style.fontFamily = `${fontName}, Arial, sans-serif`;
     }
-
 }
 
 customElements.define('text-panel', TextPanel);
