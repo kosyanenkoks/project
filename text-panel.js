@@ -40,6 +40,10 @@ class TextPanel extends HTMLElement {
         );
         this.customizeText.className = 'selects-holder';
         this.selectList;
+        this.colorPicker = this.customizeText.appendChild(
+            document.createElement('input')
+        );
+        this.colorPicker.type = 'color';
 
         let fontFamilies = [
             "Roboto",
@@ -69,30 +73,31 @@ class TextPanel extends HTMLElement {
         //-------------------------------------------------
         // customize user text
         //-------------------------------------------------
-        // const test = () => {
-        //     this.selectList.onchange = event => {
-        //         console.log(event.target.value);
-        //         return event.target.value
-        //     }
-        // };
-
-        this.customizeText.onclick = event => {
-            event.target.onchange = e => {
-                console.log(e.target)
-            }
-        }
-
         this.createSelects([fontFamilies, fontSizes]);
-        this.setColor('blue');
-        // this.setFontSize(test());
-        this.setFontFamily('Pacifico');
-        //-------------------------------------------------
+        let fontFamiliesSelect = this.shadowRoot.querySelector('#select-0');
+        let fontSizesSelect = this.shadowRoot.querySelector('#select-1');
 
+        const adjustFontFamily = event => {
+            this.setFontFamily(event.target.value);
+        };
+
+        const adjustFontSize = event => {
+            this.setFontSize(event.target.value);
+        };
+
+        const adjustColor = event => {
+            event.target.setAttribute('value', event.target.value);
+            this.setColor(event.target.value)
+        };
+
+        fontFamiliesSelect.addEventListener('change', adjustFontFamily);
+        fontSizesSelect.addEventListener('change', adjustFontSize);
+        this.colorPicker.addEventListener('change', adjustColor);
+        //-------------------------------------------------
 
         //-------------------------------------------------
         // insert text on Big Image & input validation
         //-------------------------------------------------
-
         const insertText = event => {
             let textBlock = bigImgHolder.textBlock;
             let bigImg = bigImgHolder.img;
@@ -105,12 +110,10 @@ class TextPanel extends HTMLElement {
             };
 
             const absenceOfText = () => {
-                console.log(this.inputArea)
                 this.inputArea.classList.add('input-error');
             };
 
             const absenceOfImg = () => {
-                console.log(this.inputArea)
                 this.inputArea.classList.add('img-error');
             };
 
@@ -128,6 +131,21 @@ class TextPanel extends HTMLElement {
                 absenceOfImg();
                 absenceOfText();
             } else {console.log(5)}
+
+            // if (this.input.value.length > 0 && bigImg.hasAttribute('src')) {
+            //     console.log(1)
+            //     success();
+            // } else if (! bigImg.hasAttribute('src')){
+            //     console.log(2)
+            //     absenceOfImg();
+            // } else if (this.input.value.length == 0) {
+            //     console.log(3)
+            //     absenceOfText();
+            // } else if (! bigImg.hasAttribute('src') && ! this.input.value.length == 0){
+            //     console.log(4)
+            //     absenceOfImg();
+            //     absenceOfText();
+            // } else {console.log(5)}
 
             // if (this.input.value.length > 0 && bigImg.hasAttribute('src')) {
             //     textBlock.innerText = this.input.value;
@@ -149,7 +167,6 @@ class TextPanel extends HTMLElement {
         //-------------------------------------------------
 
     }
-
 
     setStyle() {
         this.shadowStyle.textContent = `

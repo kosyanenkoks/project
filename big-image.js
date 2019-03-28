@@ -43,7 +43,7 @@ class Image extends HTMLElement {
             }
         };
 
-        this.textBlock.addEventListener('onmousedown', dragElement(this.textBlock))
+        this.addEventListener('onmousedown', dragElement(this.textBlock))
         //-------------------------------------------------
     }
 
